@@ -21,7 +21,6 @@ string choose_highlight_char(string& alphabet_cipher,vector<vector<int>>& board,
 string shift_back(string s);
 
 void generate_sudoku();
-bool valid_preboard(vector<vector<int>>& board,vector<int>& preset_pos);
 bool is_board_filled(vector<vector<int>>& board);
 bool sudoku_filler(vector<vector<int>>& board);
 vector<int> valid_number(vector<vector<int>>& board,int& x,int& y);
@@ -467,50 +466,6 @@ bool sudoku_filler(vector<vector<int>>& board){
 	
 
 	return false;
-}
-
-bool valid_preboard(vector<vector<int>>& board,vector<int>& preset_pos){
-	bool valid = true;
-	for(int i = 0;i < preset_pos.size() && valid;++i){
-		int x = preset_pos[i] / sz;
-		int y = preset_pos[i] % sz;
-
-		for(int j = 0;j < sz;++j){
-			if(j != x && board[j][y] == board[x][y]){
-				// cout << j * sz + y << " " << preset_pos[i] << "\n";
-				valid = false;
-				break;
-			}
-			if(j != y && board[x][j] == board[x][y]){
-				// cout << x * sz + j << " " << preset_pos[i] << "\n";
-				valid = false;
-				break;
-			}
-		}
-
-		if(!valid) break;
-
-		int grid_x = x / N * N;
-		int grid_y = y / N * N;
-
-		for(int j = 0;j < N && valid;++j){
-			for(int k = 0;k < N;++k){
-				if((grid_x + j != x || grid_y + k != y) && board[grid_x + j][grid_y + k] == board[x][y]){
-					// cout << (grid_x + j) * sz + (grid_y + k) << " " << preset_pos[i] << "\n";
-					valid = false;
-					break;
-				}
-			}
-		}
-	}
-	if(!valid){
-		for(int i = 0;i < preset_pos.size();++i){
-			int x = preset_pos[i] / sz;
-			int y = preset_pos[i] % sz;
-			board[x][y] = 0;
-		}
-	}
-	return valid;
 }
 
 vector<int> valid_number(vector<vector<int>>& board,int& x,int& y){
